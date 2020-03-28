@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanghuadi.mapper.InspectionMapper">
+
+	<insert id="insert" parameterType="com.wanghuadi.beans.Inspection">
+		insert into inspection
+		(id,keyword,mes,name,product,address,capital,idate,status)
+		values
+		(#{id},#{keyword},#{mes},#{name},#{product},#{address},#{capital},#{idate},#{status.name})
+	</insert>
+	
+	<select id="queryAll" resultType="com.wanghuadi.beans.Inspection" parameterType="map">
+		select * from inspection
+		<where>
+			<if test="id != null and id !='' ">
+				and id=#{id}
+			</if>
+			<if test="keyword != null and keyword !='' ">
+				and keyword=#{keyword}
+			</if>
+			<if test="mes != null and mes !='' ">
+				and mes=#{mes}
+			</if>
+			<if test="product != null and product !='' ">
+				and product=#{product}
+			</if>
+			
+			<if test="address != null and address !='' ">
+				and address=#{address}
+			</if>
+			<if test="startCapital > 0 ">
+				and capital>=#{startCapital}
+			</if>
+			
+			<if test="endCapital > 0 ">
+				and capital&lt;=#{endCapital}
+			</if>
+			
+			<if test="startIdate != null and startIdate != '' ">
+				and idate>=#{startIdate}
+			</if>
+			<if test="endIdate != null and endIdate != '' ">
+				and idate&lt;=#{endIdate}
+			</if>
+		
+		</where>
+	</select>
+	<select id="queryById" parameterType="int" resultType="com.wanghuadi.beans.Inspection">
+		select * from inspection where id=#{0}
+	</select>
+	
+	<update id="updateStatus" parameterType="map">
+		update inspection set status=#{status} where id=#{id}
+	</update>
+
+</mapper>
